@@ -123,8 +123,22 @@ function hitSoundClass(src) {
 
 function startGame(){
     move();
-    drawEverything();   
+    drawEverything(); 
+    decider();  
 }
+
+function decider(){
+let win = 'You win!';
+let lose = 'You lose!';
+if(aiScore >= 10){
+    canvasContext.fillStyle = 'red'
+    canvasContext.fillText(lose, 100,200)
+} else if (humanScore >= 10){
+        canvasContext.fillStyle = 'cyan'
+        canvasContext.fillText(win, 100,200)
+}
+}
+
 
 function move(){
       computerAI();                           
@@ -140,7 +154,7 @@ function move(){
         } else {
             reset();
             aiScore++; 
-            damageSound.play();  
+            //damageSound.play();  
             
         }
     } if(circleX > canvas.width){                       //hvis cirkel er mindre end 0, vender cirklen tilbage
@@ -166,13 +180,14 @@ function move(){
 function computerAI(){                              //computer AI 
     let paddleY2Center = paddleY2 + (PADDLE_HEIGHT2/2);
     if(paddleY2Center < circleY - 35){              //hvis paddleY2Center er mindre end cirkelY - 35, så bevæger den sig nedad
-        paddleY2 +=5;                               //hastighed af Y-aksen. lavere er langsommere
+        paddleY2 +=6;                               //hastighed af Y-aksen. lavere er langsommere
     } else if(paddleY2Center > circleY + 35){       //hvis paddleY2Center er større end cirkelY + 35, så bevæger den sig opad
-        paddleY2 -=5;                               //hastighed af Y-aksen. lavere er langsommere
+        paddleY2 -=6;                               //hastighed af Y-aksen. lavere er langsommere
     }
 }
 
-               
+
+
 
 function reset(){                        //hvis cirklen rammer sidene, resetter cirklen
     if(circleX > 800){                   //hvis bolden er mere eller lige med 800(canvas.width)
@@ -193,23 +208,64 @@ function reset(){                        //hvis cirklen rammer sidene, resetter 
     }
 }
 
+
+
 function drawEverything(){
-    coloring(0,0,canvas.width, canvas.height, 'black');                 //baggrund farve
+    
+    drawPlatform(0,0,canvas.width, canvas.height, 'black');                 //baggrund farve
     canvasContext.fillStyle = 'red';                                    //hvid linje(player1 - venstre)
     canvasContext.fillRect(canvas.width-800,paddleY,10,PADDLE_HEIGHT);  //(stillingX, stillingY, bredde, højde)
     canvasContext.fillStyle = 'dodgerblue';                             //hvid linje(player2 - højre)
     canvasContext.fillRect(canvas.width-10,paddleY2,10,PADDLE_HEIGHT2); //(stillingX, stillingY, bredde, højde)
     canvasContext.fillStyle = 'white';                                  //hvid linje(I midten)                          
-    canvasContext.fillRect(375,0,10,canvas.height);                     //(stillingX, stillingY, bredde, højde)
-    circlefunc(circleX, circleY, 10, 'lime');                           //cirkel farve(bold)                
+    canvasContext.fillRect((canvas.width/2)-5,0,5,canvas.height);                     //(stillingX, stillingY, bredde, højde)
+    circlefunc(circleX, circleY, 10, '#ffd319');                           //cirkel farve(bold)                
+    canvasContext.fillStyle = 'lime';
+    canvasContext.font = '50px Arial';
     canvasContext.fillText(humanScore, 175, 100);                       //human score
+    
     canvasContext.fillText(aiScore, 575, 100);                          //ai score
+    drawSide();
+    drawSide2();
+    drawSide3();
+    drawSide4();
+    drawCircleMid();
 }
 
-function coloring(leftX, topY, width, height, drawColor){               //baggrund farve
+function drawPlatform(leftX, topY, width, height, drawColor){               //baggrund farve
     canvasContext.fillStyle = drawColor;
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
+}
 
+function drawSide(){        //left
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillRect(0,0,3,canvas.height);
+}
+
+function drawSide2(){       //top
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillRect(0,0,canvas.width,3);
+}
+
+function drawSide3(){       //bottom
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillRect(0,597,canvas.width,3);
+}
+
+function drawSide4(){       //right
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillRect(797,0,3,canvas.height);
+}
+
+function drawCircleMid(){
+    canvasContext.fillStyle = 'white';
+    canvasContext.arc(0,0, 5, 0, 2 * Math.PI);
+}
+
+function drawText(){
+    canvasContext.fillStyle = 'white';
+    canvasContext.font = '50px Arial';
+    canvasContext.fillText(title, 200, 50);
 }
 
 function circlefunc(centerX, centerY, radius, drawColor){               //cirkel farve(bold)
