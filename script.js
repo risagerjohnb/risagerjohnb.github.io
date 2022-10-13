@@ -140,7 +140,7 @@ function move(){
         } else {
             reset();
             aiScore++; 
-            //damageSound.play();  
+            damageSound.play();  
             
         }
     } if(circleX > canvas.width){                       //hvis cirkel er mindre end 0, vender cirklen tilbage
