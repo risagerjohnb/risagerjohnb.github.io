@@ -1,8 +1,8 @@
 let canvas;
 let canvasContext;
 
-let circleX = 50;
-let circleY = 50;
+let circleX = 400-2;
+let circleY = 300;
 
 let circleSpeedX = 6;
 let circleSpeedY = 3;
@@ -17,6 +17,8 @@ let humanScore = 0;
 let aiScore = 0;
 
 let playing = true;
+let playingComputer = true;
+let player2 = false;
 
 let startBtn = document.querySelector('#start');
 let restartBtn = document.getElementById('restart');
@@ -27,9 +29,7 @@ let easyBtn = document.querySelector('#easy');
 let mediumBtn = document.querySelector('#medium');
 let hardBtn = document.querySelector('#hard');
 
-
 document.body.style.backgroundColor = "black";
-
 
 
 /*------------------------------START Player----------------------------------*/
@@ -60,13 +60,10 @@ window.onload = function(){                                     //Alt events sta
     
     canvas.addEventListener('mousemove', function(evt){         //en event starter hver gang musen bevæger sig
         let mousePos = calculateMousePos(evt);                  //evt = event
-        paddleY = mousePos.y-(PADDLE_HEIGHT/2);                 //højde af musen
+        paddleY = mousePos.y-(PADDLE_HEIGHT/2);                 
     });
 
-    canvas.addEventListener('keydown', function(event){         //virker ikke
-        let player2 = player2Input(event);
-        paddleY2 = player2.y-(PADDLE_HEIGHT2/2);
-    })
+    
 }
 
 
@@ -77,6 +74,19 @@ function startGame(){
     drawEverything(); 
     decider();  
     
+}
+
+player2Btn.addEventListener('click', player2func);
+
+function player2func(){
+    playingComputer = false;
+    
+}
+
+computerBtn.addEventListener('click', playerAi);
+
+function playerAi(){
+    playingComputer = true;
 }
 
 pauseBtn.addEventListener('click', pauser);
@@ -100,8 +110,8 @@ function restartfunc(){
 }
 
 function decider(){
-let win = 'You win!';
-let lose = 'You lose!';
+let win = 'You win! Wanna win again?';
+let lose = 'You lose! Try again?';
 if(aiScore >= 3){
     drawPlatform(0,0,canvas.width, canvas.height, 'black');
     canvasContext.font = '30px monospace';
@@ -161,17 +171,16 @@ function move(){
 }
 
 function computerDifficulty(){                              //computer AI 
+    if(playingComputer === true){
     let paddleY2Center = paddleY2 + (PADDLE_HEIGHT2/2);
-    if(easyBtn)
     if(paddleY2Center < circleY - 35){              //hvis paddleY2Center er mindre end cirkelY - 35, så bevæger den sig nedad
         paddleY2 +=6;                               //hastighed af Y-aksen. lavere er langsommere
     } else if(paddleY2Center > circleY + 35){       //hvis paddleY2Center er større end cirkelY + 35, så bevæger den sig opad
         paddleY2 -=6;                               //hastighed af Y-aksen. lavere er langsommere
     }
+
 }
-
-
-
+}
 
 function reset(){                        //hvis cirklen rammer sidene, resetter cirklen
     if(circleX > 800){                   //hvis bolden er mere end 800(canvas.width)
@@ -297,25 +306,3 @@ function hitSoundClass(src) {
     }
   }
 /*---------------------------------SLUT LYD--------------------------------------*/
-
-/*let upKey;
-let downKey;
-
-function player2Input(){                                            
-    document.addEventListener('keydown', function(event){
-        if(event.key === 'w'){
-            upKey = true;
-            
-        } else if (event.key === 's'){
-            downKey = true;
-            
-        }
-    });
-    document.addEventListener('keyup', function(event){
-        if(event.key === 'w'){
-            upKey = false;
-        } else if (event.key === 's'){
-            downKey = false;
-        }
-    });
-}*/
