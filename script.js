@@ -89,16 +89,21 @@ function playerAi(){
     playingComputer = true;
 }
 
-pauseBtn.addEventListener('click', pauser);
+pauseBtn.addEventListener('click', function(){
+    pauser();
+});
 
 function pauser(){
     playing = false;
 }
 
-startBtn.addEventListener('click', starter);
+
+startBtn.addEventListener('click', function(){
+    setTimeout(starter, 3000)
+});
 
 function starter(){
-    playing = true;
+    playing = true
 }
 
 restartBtn.addEventListener('click', restartfunc);
@@ -106,7 +111,9 @@ restartBtn.addEventListener('click', restartfunc);
 function restartfunc(){
     aiScore = 0;
     humanScore = 0;
-    playing = true;
+    circleX = 400-2;
+    circleY = 300;
+    playing = false;
 }
 
 function decider(){
