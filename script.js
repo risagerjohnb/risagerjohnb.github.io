@@ -16,24 +16,21 @@ const PADDLE_HEIGHT2 = 100;
 let humanScore = 0;
 let aiScore = 0;
 
+let playing = true;
+
 let startBtn = document.querySelector('#start');
-startBtn.addEventListener('click', function(){
-    startBtn.style.display = 'none';
-    startGame();
-    
-});
-
-
-let restartBtn = document.querySelector('#restart');
+let restartBtn = document.getElementById('restart');
 let pauseBtn = document.querySelector('#pause');
+let player2Btn = document.querySelector('#player2');
+let computerBtn = document.querySelector('#computer');
+let easyBtn = document.querySelector('#easy');
+let mediumBtn = document.querySelector('#medium');
+let hardBtn = document.querySelector('#hard');
 
 
 document.body.style.backgroundColor = "black";
 
 
-
-
-    
 
 /*------------------------------START Player----------------------------------*/
 function calculateMousePos(evt){                            //en event starter hver gang musen er i bevægelse
@@ -49,10 +46,8 @@ function calculateMousePos(evt){                            //en event starter h
 /*------------------------------SLUT Player----------------------------------*/
 
 
-
-
-
 window.onload = function(){                                     //Alt events starter når siden er loaded.
+    playing = false;
     canvas = document.getElementById('gamecanvasid');
     canvasContext = canvas.getContext('2d');
     
@@ -73,43 +68,7 @@ window.onload = function(){                                     //Alt events sta
         paddleY2 = player2.y-(PADDLE_HEIGHT2/2);
     })
 }
-/*---------------------------------START LYD--------------------------------------*/
-function damageSoundClass(src) {
-    this.damageSoundClass = document.createElement("audio");
-    this.damageSoundClass.src = src;
-    this.damageSoundClass.setAttribute("preload", "auto");
-    this.damageSoundClass.setAttribute("controls", "none");
-    this.damageSoundClass.style.display = "none";
-    document.body.appendChild(this.damageSoundClass);
-    this.play = function(){
-      this.damageSoundClass.play();
-    }
-  }
 
-function pointsSoundClass(src) {
-    this.pointsSoundClass = document.createElement("audio");
-    this.pointsSoundClass.src = src;
-    this.pointsSoundClass.setAttribute("preload", "auto");
-    this.pointsSoundClass.setAttribute("controls", "none");
-    this.pointsSoundClass.style.display = "none";
-    document.body.appendChild(this.pointsSoundClass);
-    this.play = function(){
-      this.pointsSoundClass.play();
-    }
-  }
-
-function hitSoundClass(src) {
-    this.hitSoundClass = document.createElement("audio");
-    this.hitSoundClass.src = src;
-    this.hitSoundClass.setAttribute("preload", "auto");
-    this.hitSoundClass.setAttribute("controls", "none");
-    this.hitSoundClass.style.display = "none";
-    document.body.appendChild(this.hitSoundClass);
-    this.play = function(){
-      this.hitSoundClass.play();
-    }
-  }
-/*---------------------------------SLUT LYD--------------------------------------*/
 
 
 
@@ -117,26 +76,54 @@ function startGame(){
     move();
     drawEverything(); 
     decider();  
+    
+}
+
+pauseBtn.addEventListener('click', pauser);
+
+function pauser(){
+    playing = false;
+}
+
+startBtn.addEventListener('click', starter);
+
+function starter(){
+    playing = true;
+}
+
+restartBtn.addEventListener('click', restartfunc);
+
+function restartfunc(){
+    aiScore = 0;
+    humanScore = 0;
+    playing = true;
 }
 
 function decider(){
 let win = 'You win!';
 let lose = 'You lose!';
-if(aiScore >= 10){
+if(aiScore >= 3){
+    drawPlatform(0,0,canvas.width, canvas.height, 'black');
     canvasContext.font = '30px monospace';
     canvasContext.fillStyle = 'red'
     canvasContext.fillText(lose, 100,200)
+    playing = false;
     
-} else if (humanScore >= 10){
+    
+} else if (humanScore >= 3){
+        drawPlatform(0,0,canvas.width, canvas.height, 'black');
         canvasContext.font = '30px monospace';
         canvasContext.fillStyle = 'cyan'
         canvasContext.fillText(win, 100,200)
-}
+        playing = false;
+    }
 }
 
 
 function move(){
-      computerAI();                           
+    if(playing === true){
+      computerDifficulty();  
+                             
     circleX = circleX + circleSpeedX;
     circleY = circleY + circleSpeedY;
     
@@ -171,9 +158,11 @@ function move(){
         
     }
 }
+}
 
-function computerAI(){                              //computer AI 
+function computerDifficulty(){                              //computer AI 
     let paddleY2Center = paddleY2 + (PADDLE_HEIGHT2/2);
+    if(easyBtn)
     if(paddleY2Center < circleY - 35){              //hvis paddleY2Center er mindre end cirkelY - 35, så bevæger den sig nedad
         paddleY2 +=6;                               //hastighed af Y-aksen. lavere er langsommere
     } else if(paddleY2Center > circleY + 35){       //hvis paddleY2Center er større end cirkelY + 35, så bevæger den sig opad
@@ -225,6 +214,7 @@ function drawEverything(){
     drawSide3();
     drawSide4();
     drawCircleMid();
+    
 }
 
 function drawPlatform(leftX, topY, width, height, drawColor){               //baggrund farve
@@ -270,6 +260,44 @@ function circlefunc(centerX, centerY, radius, drawColor){               //cirkel
     canvasContext.fill();
 }
 
+/*---------------------------------START LYD--------------------------------------*/
+function damageSoundClass(src) {
+    this.damageSoundClass = document.createElement("audio");
+    this.damageSoundClass.src = src;
+    this.damageSoundClass.setAttribute("preload", "auto");
+    this.damageSoundClass.setAttribute("controls", "none");
+    this.damageSoundClass.style.display = "none";
+    document.body.appendChild(this.damageSoundClass);
+    this.play = function(){
+      this.damageSoundClass.play();
+    }
+  }
+
+function pointsSoundClass(src) {
+    this.pointsSoundClass = document.createElement("audio");
+    this.pointsSoundClass.src = src;
+    this.pointsSoundClass.setAttribute("preload", "auto");
+    this.pointsSoundClass.setAttribute("controls", "none");
+    this.pointsSoundClass.style.display = "none";
+    document.body.appendChild(this.pointsSoundClass);
+    this.play = function(){
+      this.pointsSoundClass.play();
+    }
+  }
+
+function hitSoundClass(src) {
+    this.hitSoundClass = document.createElement("audio");
+    this.hitSoundClass.src = src;
+    this.hitSoundClass.setAttribute("preload", "auto");
+    this.hitSoundClass.setAttribute("controls", "none");
+    this.hitSoundClass.style.display = "none";
+    document.body.appendChild(this.hitSoundClass);
+    this.play = function(){
+      this.hitSoundClass.play();
+    }
+  }
+/*---------------------------------SLUT LYD--------------------------------------*/
+
 /*let upKey;
 let downKey;
 
@@ -291,7 +319,3 @@ function player2Input(){
         }
     });
 }*/
-
-
-    
-    
