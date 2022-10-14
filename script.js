@@ -49,15 +49,7 @@ function calculateMousePos(evt){                            //en event starter h
 /*------------------------------SLUT Player----------------------------------*/
 
 
-/*-----------------START Ping pong header(Human vs 'AI')------------------*/
-const newHeader = document.createElement('h1');
-const content = document.createTextNode('Human vs "AI"');
-newHeader.appendChild(content);
-const currentHeader = document.getElementById('headerid');
-document.body.insertBefore(newHeader, currentHeader);
-newHeader.style.color = "white";
-newHeader.style.fontFamily = "Arial";
-/*-----------------SLUT Ping pong header(Human vs 'AI')------------------*/
+
 
 
 window.onload = function(){                                     //Alt events starter når siden er loaded.
@@ -131,9 +123,12 @@ function decider(){
 let win = 'You win!';
 let lose = 'You lose!';
 if(aiScore >= 10){
+    canvasContext.font = '30px monospace';
     canvasContext.fillStyle = 'red'
     canvasContext.fillText(lose, 100,200)
+    
 } else if (humanScore >= 10){
+        canvasContext.font = '30px monospace';
         canvasContext.fillStyle = 'cyan'
         canvasContext.fillText(win, 100,200)
 }
@@ -154,7 +149,7 @@ function move(){
         } else {
             reset();
             aiScore++; 
-            damageSound.play();  
+            //damageSound.play();  
             
         }
     } if(circleX > canvas.width){                       //hvis cirkel er mindre end 0, vender cirklen tilbage
