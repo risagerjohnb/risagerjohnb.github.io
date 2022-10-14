@@ -143,19 +143,19 @@ function move(){
     if(circleX < 0){                                    //hvis cirkel er større end 800, vender cirklen tilbage                 
         if(circleY > paddleY && circleY < paddleY + PADDLE_HEIGHT){
             circleSpeedX = -circleSpeedX
-            circleSpeedY = circleSpeedY + (circleY - (paddleY + PADDLE_HEIGHT/2))/15;
+            circleSpeedY = circleSpeedY + (circleY - (paddleY + PADDLE_HEIGHT/2))/15;   //hvis bolden rammer kanten af paddle, får man en bedre chance at vinde
             circleSpeedX++;
             hitSound.play();
         } else {
             reset();
             aiScore++; 
-            //damageSound.play();  
+            damageSound.play();  
             
         }
     } if(circleX > canvas.width){                       //hvis cirkel er mindre end 0, vender cirklen tilbage
         if(circleY > paddleY2 && circleY < paddleY2 + PADDLE_HEIGHT2){
             circleSpeedX = -circleSpeedX
-            circleSpeedY = circleSpeedY + (circleY - (paddleY2 + PADDLE_HEIGHT2/2))/15;
+            circleSpeedY = circleSpeedY + (circleY - (paddleY2 + PADDLE_HEIGHT2/2))/15; //hvis bolden rammer kanten af paddle, får man en bedre chance at vinde
             circleSpeedX--;
             hitSound.play();
         } else {
@@ -185,7 +185,7 @@ function computerAI(){                              //computer AI
 
 
 function reset(){                        //hvis cirklen rammer sidene, resetter cirklen
-    if(circleX > 800){                   //hvis bolden er mere eller lige med 800(canvas.width)
+    if(circleX > 800){                   //hvis bolden er mere end 800(canvas.width)
         circleX = 800/2;                 //placer bolden i midten
         circleY = 600/2;                 //placer bolden i midten
         circleSpeedY = -3                //hvis jeg vinder, så går bolden til højre, når den starter igen                
