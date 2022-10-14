@@ -32,6 +32,8 @@ let hardBtn = document.querySelector('#hard');
 document.body.style.backgroundColor = "black";
 
 
+
+
 /*------------------------------START Player----------------------------------*/
 function calculateMousePos(evt){                            //en event starter hver gang musen er i bevægelse
     let rect = canvas.getBoundingClientRect();              //det er vores gameboard 
@@ -64,6 +66,8 @@ window.onload = function(){                                     //Alt events sta
     });
 
     
+
+    
 }
 
 
@@ -76,7 +80,28 @@ function startGame(){
     
 }
 
-player2Btn.addEventListener('click', player2func);
+let player2speedY = 0;
+
+function moveup() {
+    let enemy = drawEnemy();
+    enemy.player2speedY -= 1;
+  }
+  
+  function movedown() {
+    let enemy = drawEnemy();
+    enemy.player2speedY += 1;
+  }
+
+player2Btn.addEventListener('click', function(){
+    player2func();
+    player2Btn.addEventListener('keydown', function(x){
+        if(x.key === w){
+            alert('works?')
+        } else if(x.key === s){
+            alert('worksmaybe?')
+        }
+    })
+});
 
 function player2func(){
     playingComputer = false;
@@ -215,8 +240,7 @@ function drawEverything(){
     drawPlatform(0,0,canvas.width, canvas.height, 'black');                 //baggrund farve
     canvasContext.fillStyle = 'red';                                    //hvid linje(player1 - venstre)
     canvasContext.fillRect(canvas.width-800,paddleY,10,PADDLE_HEIGHT);  //(stillingX, stillingY, bredde, højde)
-    canvasContext.fillStyle = 'dodgerblue';                             //hvid linje(player2 - højre)
-    canvasContext.fillRect(canvas.width-10,paddleY2,10,PADDLE_HEIGHT2); //(stillingX, stillingY, bredde, højde)
+    drawEnemy();
     canvasContext.fillStyle = 'white';                                  //hvid linje(I midten)                          
     canvasContext.fillRect((canvas.width/2)-5,0,5,canvas.height);                     //(stillingX, stillingY, bredde, højde)
     circlefunc(circleX, circleY, 10, '#ffd319');                           //cirkel farve(bold)                
@@ -231,6 +255,11 @@ function drawEverything(){
     drawSide4();
     drawCircleMid();
     
+}
+
+function drawEnemy(){
+    canvasContext.fillStyle = 'dodgerblue';                             //hvid linje(player2 - højre)
+    canvasContext.fillRect(canvas.width-10,paddleY2,10,PADDLE_HEIGHT2); //(stillingX, stillingY, bredde, højde)
 }
 
 function drawPlatform(leftX, topY, width, height, drawColor){               //baggrund farve

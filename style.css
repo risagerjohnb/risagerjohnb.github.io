@@ -21,25 +21,16 @@ button{
 
 #easy{
     color:lime;
-    position: absolute;
-    bottom: 170px;
-    left: 0px;
     border: 2px solid lime;
 }
 
 #medium{
-    color:yellow;
-    position: absolute;
-    bottom: 170px;
-    left: 90px;
+    color:yellow;   
     border: 2px solid yellow;
 }
 
 #hard{
     color:red;
-    position: absolute;
-    bottom: 170px;;
-    left: 210px;
     border: 2px solid red;
 }
 
