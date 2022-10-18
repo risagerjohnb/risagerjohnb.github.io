@@ -13,9 +13,9 @@ button{
     background-color: black;
     color: white;
     border: 2px solid white;
-    padding: 2px 2px;
-    font-size: 5px;
-    margin: 4px 2px;
+    padding: 0px 0px;
+    font-size: 3px;
+    margin: 0px 0px;
     cursor: pointer;
 }
 
@@ -34,3 +34,7 @@ button{
     border: 2px solid red;
 }
 
+div{
+    font-family:'Courier New', Courier, monospace;
+    font-size: 14px;
+}

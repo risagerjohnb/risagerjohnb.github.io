@@ -34,7 +34,8 @@ document.body.style.backgroundColor = "black";
 
 
 
-/*------------------------------START Player----------------------------------*/
+
+/*------------------------------START Player1 input----------------------------------*/
 function calculateMousePos(evt){                            //en event starter hver gang musen er i bevægelse
     let rect = canvas.getBoundingClientRect();              //det er vores gameboard 
     let root = document.documentElement;                    //tager vores gameboard fra html
@@ -45,7 +46,7 @@ function calculateMousePos(evt){                            //en event starter h
         y:mouseY
     };
 }
-/*------------------------------SLUT Player----------------------------------*/
+/*------------------------------SLUT Player1 input----------------------------------*/
 
 
 window.onload = function(){                                     //Alt events starter når siden er loaded.
@@ -65,26 +66,30 @@ window.onload = function(){                                     //Alt events sta
         paddleY = mousePos.y-(PADDLE_HEIGHT/2);                 
     });
     
+    document.addEventListener('keydown', stoppingAI);
+
 }
-
-
 
 function startGame(){
     move();
     drawEverything(); 
     decider();  
-    
 }
 
-player2Btn.addEventListener('click', function(){ //spiller mod en anden spiller
-    player2func();
-    
-});
+player2Btn.addEventListener('click', stoppingAI);
 
-function player2func(){ //spiller mod en anden spiller
+function stoppingAI(event){
     playingComputer = false;
-    
+    let x = event.key;
+    if(x == 'w' || x == 'W'){
+        paddleY2 -= 20;
+        console.log('pressing w')
+    } else if(x == 's' || x == 'S'){
+        paddleY2 += 20;
+        console.log('pressing s')
+    }
 }
+
 
 computerBtn.addEventListener('click', playerAi); //spiller mod computer
 
@@ -141,8 +146,7 @@ if(aiScore >= 3){ //hvis spilleren har 3 point, vinder spilleren
 
 
 function move(){ 
-    if(playing === true){
-        easyDifficulty();         
+    if(playing === true){         
     circleX = circleX + circleSpeedX; 
     circleY = circleY + circleSpeedY; 
     
@@ -155,7 +159,7 @@ function move(){
         } else {
             reset();
             aiScore++; 
-            damageSound.play();  
+            //damageSound.play();  
             
         }
     } if(circleX > canvas.width){                       //hvis cirkel er mindre end 0, vender cirklen tilbage
@@ -177,6 +181,9 @@ function move(){
         
     }
 }
+
+
+hardDifficulty();
 }
 
 
@@ -193,6 +200,8 @@ function easyDifficulty(){ //let computer
     
 }
 
+
+
 function mediumDifficulty(){ //medium computer
     if(playingComputer === true){
         let paddleY2Center = paddleY2 + (PADDLE_HEIGHT2/2);
@@ -205,13 +214,15 @@ function mediumDifficulty(){ //medium computer
     }
 }
 
+
+
 function hardDifficulty(){ //hard computer
     if(playingComputer === true){
         let paddleY2Center = paddleY2 + (PADDLE_HEIGHT2/2);
         if(paddleY2Center < circleY - 35){              //hvis paddleY2Center er mindre end cirkelY - 35, så bevæger den sig nedad
-            paddleY2 +=7;                               //hastighed af Y-aksen. lavere er langsommere
+            paddleY2 +=10;                               //hastighed af Y-aksen. lavere er langsommere
         } else if(paddleY2Center > circleY + 35){       //hvis paddleY2Center er større end cirkelY + 35, så bevæger den sig opad
-            paddleY2 -=7;                               //hastighed af Y-aksen. lavere er langsommere
+            paddleY2 -=10;                               //hastighed af Y-aksen. lavere er langsommere
         }
     }
 }
